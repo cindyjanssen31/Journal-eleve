@@ -150,10 +150,22 @@ function fmtShort(d){return d.toLocaleDateString('fr-BE',{day:'2-digit',month:'2
 function fmtLong(d){return d.toLocaleDateString('fr-BE',{weekday:'long',day:'2-digit',month:'long'})}
 
 function classify(item){
+  const explicit=(item.kind||'').toLowerCase();
   const s=((item.type||'')+' '+(item.text||'')).toLowerCase();
+
+  if(explicit==='test') return 'test';
+  if(explicit==='homework') return 'homework';
+  if(explicit==='info') return 'info';
+  if(explicit==='course') return 'course';
+
   if(/test|évaluation|evaluation|interro|contrôle|controle|certificat|sommatif/.test(s)) return 'test';
-  if(/devoir|leçon|lecon|étudier|etudier|préparer|preparer|réaliser|realiser|exercice.*maison/.test(s)) return 'homework';
   if(/remarque|info|information|réunion|reunion|absence|rappel/.test(s)) return 'info';
+
+  /* Les lignes publiées par Mon Suivi Prof sont des devoirs/leçons.
+     Le type exact (Théorie, Exercices, Devoir, Leçon, etc.) est conservé
+     et ne doit donc jamais retomber dans la catégorie "Cours". */
+  if((item.type||'').trim()) return 'homework';
+
   return 'course';
 }
 function label(kind){
@@ -188,7 +200,7 @@ function renderWeek(){
       dayItems.forEach(it=>{
         const kind=classify(it);
         html+=`<article class="entry ${kind}">
-          <div class="entry-type">${esc(label(kind))}</div>
+          <div class="entry-type">${esc(kind==='homework' && it.type ? it.type : label(kind))}</div>
           <div class="entry-course">${esc(it.course||payload.courseName||'')}</div>
           ${it.chapter?`<div class="entry-chapter">${esc(it.chapter)}</div>`:''}
           ${it.text?`<div class="entry-text">${esc(it.text)}</div>`:''}
@@ -217,7 +229,7 @@ function renderWeek(){
           ${dayItems.map(it=>{
             const kind=classify(it);
             return `<article class="entry ${kind}">
-              <div class="entry-type">${esc(label(kind))}</div>
+              <div class="entry-type">${esc(kind==='homework' && it.type ? it.type : label(kind))}</div>
               <div class="entry-course">${esc(it.course||payload.courseName||'')}</div>
               ${it.chapter?`<div class="entry-chapter">${esc(it.chapter)}</div>`:''}
               ${it.text?`<div class="entry-text">${esc(it.text)}</div>`:''}
