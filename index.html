@@ -7,209 +7,319 @@
 <style>
 :root{
   --ink:#26385f;--muted:#78859b;--line:#e1e7f0;--bg:#f7f9fd;
-  --card:#fff;--accent:#7658c7;--pink:#f3dce8;--blue:#e1efff;--yellow:#fff1ba;
+  --course:#e7f1ff;--course-b:#74a5e8;--course-t:#244f8d;
+  --homework:#efe7ff;--homework-b:#9b7bd9;--homework-t:#5d3f97;
+  --test:#ffe5ee;--test-b:#df6f99;--test-t:#a53862;
+  --info:#fff0cd;--info-b:#e4b34d;--info-t:#89630d;
 }
 *{box-sizing:border-box}
 body{
   margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);
   background:linear-gradient(135deg,#f7f9fd,#faf7ff 55%,#fffaf3);
 }
-.shell{max-width:1050px;margin:auto;padding:24px 16px 50px}
+.shell{max-width:1400px;margin:auto;padding:18px 14px 44px}
 .hero{
-  background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;
-  box-shadow:0 10px 30px rgba(44,58,94,.08);margin-bottom:18px
+  background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px 20px;
+  box-shadow:0 10px 28px rgba(44,58,94,.07);margin-bottom:14px
 }
-.hero h1{margin:0 0 6px;font-size:28px}
-.hero p{margin:0;color:var(--muted)}
-.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
-.badge{
-  background:#f3efff;color:#5d46a4;border-radius:999px;padding:6px 10px;
-  font-size:12px;font-weight:800
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.hero h1{margin:0 0 5px;font-size:28px;color:#173e79}
+.hero p{margin:0;color:var(--muted);font-size:13px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.badge{background:#f3efff;color:#5d46a4;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800}
+.legend{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.legend span{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:white;font-size:11px;font-weight:800}
+.dot{width:10px;height:10px;border-radius:50%}
+.dot.course{background:var(--course-b)}.dot.homework{background:var(--homework-b)}.dot.test{background:var(--test-b)}.dot.info{background:var(--info-b)}
+
+.weekbar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin:12px 0 10px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:9px 11px
 }
-.card{
-  background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;
-  box-shadow:0 7px 20px rgba(44,58,94,.05);margin-bottom:11px
+.weekbar button{
+  border:1px solid #dcd6ea;background:#fff;color:#5c4a93;border-radius:10px;
+  padding:8px 11px;font-weight:900;cursor:pointer
 }
-.date{font-size:13px;font-weight:900;color:#6a52ac;margin-bottom:8px}
-.course{font-size:15px;font-weight:900}
-.chapter{font-size:12px;color:var(--muted);margin-top:2px}
-.type{
-  display:inline-block;margin-top:8px;background:#fff5cf;border-radius:999px;
-  padding:4px 8px;font-size:10px;font-weight:850;color:#856b14
+.weektitle{text-align:center;font-weight:900;color:#274779}
+.weektitle small{display:block;margin-top:2px;color:var(--muted);font-weight:600}
+
+.week{
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;align-items:start
 }
-.text{margin-top:10px;line-height:1.5;white-space:pre-wrap}
+.day{
+  background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-height:260px;
+  box-shadow:0 6px 16px rgba(44,58,94,.045)
+}
+.day-head{
+  padding:10px 11px;background:#f9fbff;border-bottom:1px solid var(--line)
+}
+.day-head strong{display:block;color:#183d78;font-size:14px}
+.day-head small{color:var(--muted);font-size:10px}
+.day.today{outline:3px solid #cfc3ef}
+.day-list{padding:9px;display:grid;gap:8px}
+.entry{
+  border-radius:12px;padding:9px 10px;border:1px solid transparent;
+  line-height:1.35
+}
+.entry.course{background:var(--course);border-color:#c9defa}
+.entry.homework{background:var(--homework);border-color:#d9c9f5}
+.entry.test{background:var(--test);border-color:#f0bfd0}
+.entry.info{background:var(--info);border-color:#f0d692}
+.entry-type{font-size:9px;font-weight:950;text-transform:uppercase;letter-spacing:.04em;opacity:.8}
+.entry-course{font-size:12px;font-weight:950;margin-top:3px}
+.entry-chapter{font-size:10px;font-weight:800;margin-top:2px;opacity:.8}
+.entry-text{font-size:11px;margin-top:5px;white-space:pre-wrap}
+.empty-day{padding:18px 8px;text-align:center;color:#9aa3b4;font-size:11px}
 .state{
-  background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;
-  text-align:center;color:var(--muted)
+  background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;text-align:center;color:var(--muted)
 }
 .state strong{display:block;color:var(--ink);font-size:18px;margin-bottom:6px}
-.chooser{display:grid;gap:9px;margin-top:12px}
-.choice{
-  border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px;
-  cursor:pointer;text-align:left;color:var(--ink)
-}
+.chooser{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px;margin-top:12px}
+.choice{border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px;cursor:pointer;text-align:left;color:var(--ink)}
 .choice:hover{background:#faf8ff;border-color:#cfc3eb}
-.choice strong{display:block}
-.choice small{display:block;color:var(--muted);margin-top:3px}
-.refresh{
-  border:0;background:#7658c7;color:white;border-radius:11px;padding:9px 12px;
-  font-weight:800;cursor:pointer;margin-top:12px
-}
+.choice strong{display:block}.choice small{display:block;color:var(--muted);margin-top:3px}
+.refresh{border:0;background:#7658c7;color:white;border-radius:11px;padding:9px 12px;font-weight:800;cursor:pointer;margin-top:12px}
+
+@media(max-width:1050px){.week{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){
-  .shell{padding:12px 10px 35px}.hero{padding:16px}.hero h1{font-size:23px}
+  .shell{padding:10px 8px 30px}.hero{padding:15px}.hero h1{font-size:23px}
+  .week{grid-template-columns:1fr}.weekbar{position:sticky;top:4px;z-index:10}
 }
 </style>
 </head>
 <body>
 <div class="shell">
   <div class="hero">
-    <h1>📘 Journal de classe</h1>
-    <p id="subtitle">Chargement du journal…</p>
-    <div class="meta" id="meta"></div>
+    <div class="hero-top">
+      <div>
+        <h1>📘 Journal de classe</h1>
+        <p id="subtitle">Chargement du journal…</p>
+      </div>
+      <div class="meta" id="meta"></div>
+    </div>
+    <div class="legend">
+      <span><i class="dot course"></i>Cours</span>
+      <span><i class="dot homework"></i>Devoir / leçon</span>
+      <span><i class="dot test"></i>Test / évaluation</span>
+      <span><i class="dot info"></i>Remarque / info</span>
+    </div>
   </div>
+
+  <div id="weekControls" class="weekbar" style="display:none">
+    <button id="prevWeek">← Semaine précédente</button>
+    <div class="weektitle" id="weekTitle"></div>
+    <button id="nextWeek">Semaine suivante →</button>
+  </div>
+
   <main id="app"><div class="state">Chargement…</div></main>
 </div>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-const SUPABASE_URL = 'https://fhsqypzaavllffggxhby.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_9hNuHKNf94hOm0lHKOaUag_CE1HLcDv';
-const TABLE = 'journaux eleves';
+const SUPABASE_URL='https://fhsqypzaavllffggxhby.supabase.co';
+const SUPABASE_KEY='sb_publishable_9hNuHKNf94hOm0lHKOaUag_CE1HLcDv';
+const TABLE='journaux eleves';
 
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
-const app = document.getElementById('app');
-const subtitle = document.getElementById('subtitle');
-const meta = document.getElementById('meta');
+const db=createClient(SUPABASE_URL,SUPABASE_KEY);
+const app=document.getElementById('app');
+const subtitle=document.getElementById('subtitle');
+const meta=document.getElementById('meta');
+const weekControls=document.getElementById('weekControls');
+const weekTitle=document.getElementById('weekTitle');
 
-const esc = v => String(v ?? '')
+const esc=v=>String(v??'')
   .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
   .replaceAll('"','&quot;').replaceAll("'","&#039;");
 
-function fmtDate(iso){
-  if(!iso) return '';
-  const d = new Date(iso + (iso.length===10 ? 'T12:00:00' : ''));
-  if(Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString('fr-BE',{
-    weekday:'long',day:'2-digit',month:'long',year:'numeric'
-  });
+let currentRow=null;
+let currentMonday=startOfWeek(new Date());
+
+function startOfWeek(d){
+  const x=new Date(d); x.setHours(12,0,0,0);
+  const day=x.getDay()||7;
+  x.setDate(x.getDate()-day+1);
+  return x;
+}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+function ymd(d){
+  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function fmtShort(d){return d.toLocaleDateString('fr-BE',{day:'2-digit',month:'2-digit'})}
+function fmtLong(d){return d.toLocaleDateString('fr-BE',{weekday:'long',day:'2-digit',month:'long'})}
+
+function classify(item){
+  const s=((item.type||'')+' '+(item.text||'')).toLowerCase();
+  if(/test|évaluation|evaluation|interro|contrôle|controle|certificat|sommatif/.test(s)) return 'test';
+  if(/devoir|leçon|lecon|étudier|etudier|préparer|preparer|réaliser|realiser|exercice.*maison/.test(s)) return 'homework';
+  if(/remarque|info|information|réunion|reunion|absence|rappel/.test(s)) return 'info';
+  return 'course';
+}
+function label(kind){
+  return {course:'Cours',homework:'Devoir / leçon',test:'Test / évaluation',info:'Remarque / info'}[kind]||'Cours';
 }
 
-function getCode(){
-  return new URLSearchParams(location.search).get('code')?.trim() || '';
+function renderWeek(){
+  if(!currentRow)return;
+  const payload=currentRow.contenu||{};
+  const items=Array.isArray(payload.items)?payload.items:[];
+
+  const from=ymd(currentMonday);
+  const sunday=addDays(currentMonday,6);
+  const to=ymd(sunday);
+
+  weekTitle.innerHTML=`Semaine du ${esc(fmtShort(currentMonday))} au ${esc(fmtShort(sunday))}<small>${esc(payload.className||currentRow.classe||'')} ${payload.courseName?'— '+esc(payload.courseName):''}</small>`;
+
+  const today=ymd(new Date());
+  let html='<div class="week">';
+  for(let i=0;i<5;i++){
+    const d=addDays(currentMonday,i);
+    const key=ymd(d);
+    const dayItems=items.filter(it=>String(it.date||'').slice(0,10)===key);
+
+    html+=`<section class="day ${key===today?'today':''}">
+      <div class="day-head"><strong>${esc(fmtLong(d))}</strong><small>${esc(key)}</small></div>
+      <div class="day-list">`;
+
+    if(!dayItems.length){
+      html+='<div class="empty-day">Rien à signaler pour ce jour.</div>';
+    }else{
+      dayItems.forEach(it=>{
+        const kind=classify(it);
+        html+=`<article class="entry ${kind}">
+          <div class="entry-type">${esc(label(kind))}</div>
+          <div class="entry-course">${esc(it.course||payload.courseName||'')}</div>
+          ${it.chapter?`<div class="entry-chapter">${esc(it.chapter)}</div>`:''}
+          ${it.text?`<div class="entry-text">${esc(it.text)}</div>`:''}
+        </article>`;
+      });
+    }
+
+    html+='</div></section>';
+  }
+  html+='</div>';
+
+  // Weekend only if there are actual entries.
+  const weekend=[];
+  for(let i=5;i<7;i++){
+    const d=addDays(currentMonday,i);
+    const key=ymd(d);
+    const dayItems=items.filter(it=>String(it.date||'').slice(0,10)===key);
+    if(dayItems.length) weekend.push({d,key,dayItems});
+  }
+  if(weekend.length){
+    html+='<div class="week" style="margin-top:10px">';
+    weekend.forEach(({d,key,dayItems})=>{
+      html+=`<section class="day">
+        <div class="day-head"><strong>${esc(fmtLong(d))}</strong><small>${esc(key)}</small></div>
+        <div class="day-list">
+          ${dayItems.map(it=>{
+            const kind=classify(it);
+            return `<article class="entry ${kind}">
+              <div class="entry-type">${esc(label(kind))}</div>
+              <div class="entry-course">${esc(it.course||payload.courseName||'')}</div>
+              ${it.chapter?`<div class="entry-chapter">${esc(it.chapter)}</div>`:''}
+              ${it.text?`<div class="entry-text">${esc(it.text)}</div>`:''}
+            </article>`;
+          }).join('')}
+        </div>
+      </section>`;
+    });
+    html+='</div>';
+  }
+
+  app.innerHTML=html;
 }
 
 function renderJournal(row){
-  const payload = row?.contenu || {};
-  const items = Array.isArray(payload.items) ? [...payload.items] : [];
-
-  subtitle.textContent = `${payload.className || row.classe || 'Classe'}${payload.courseName ? ' — '+payload.courseName : ''}`;
-  meta.innerHTML = `
-    <span class="badge">🏫 ${esc(payload.className || row.classe || 'Classe')}</span>
-    ${payload.courseName ? `<span class="badge">📚 ${esc(payload.courseName)}</span>` : ''}
-    ${row.date_publication ? `<span class="badge">🔄 Mis à jour le ${esc(new Date(row.date_publication).toLocaleString('fr-BE'))}</span>` : ''}
+  currentRow=row;
+  const payload=row?.contenu||{};
+  subtitle.textContent=`${payload.className||row.classe||'Classe'}${payload.courseName?' — '+payload.courseName:''}`;
+  meta.innerHTML=`
+    <span class="badge">🏫 ${esc(payload.className||row.classe||'Classe')}</span>
+    ${payload.courseName?`<span class="badge">📚 ${esc(payload.courseName)}</span>`:''}
+    ${row.date_publication?`<span class="badge">🔄 ${esc(new Date(row.date_publication).toLocaleString('fr-BE'))}</span>`:''}
   `;
 
-  items.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
-
-  if(!items.length){
-    app.innerHTML = `<div class="state"><strong>Aucune entrée publiée</strong>Le journal existe bien, mais il ne contient encore aucune entrée visible pour les élèves.</div>`;
-    return;
+  // Ouvrir directement la semaine la plus récente contenant des données,
+  // sauf si la semaine actuelle contient déjà quelque chose.
+  const items=Array.isArray(payload.items)?payload.items:[];
+  const thisMon=startOfWeek(new Date());
+  const thisFri=addDays(thisMon,4);
+  const hasCurrent=items.some(it=>{
+    const k=String(it.date||'').slice(0,10);
+    return k>=ymd(thisMon)&&k<=ymd(thisFri);
+  });
+  if(hasCurrent){
+    currentMonday=thisMon;
+  }else{
+    const dates=items.map(it=>String(it.date||'').slice(0,10)).filter(Boolean).sort();
+    currentMonday=dates.length?startOfWeek(new Date(dates[dates.length-1]+'T12:00:00')):thisMon;
   }
 
-  app.innerHTML = items.map(it=>`
-    <article class="card">
-      <div class="date">${esc(fmtDate(it.date))}</div>
-      <div class="course">${esc(it.course || payload.courseName || '')}</div>
-      ${it.chapter ? `<div class="chapter">${esc(it.chapter)}</div>` : ''}
-      ${it.type ? `<span class="type">${esc(it.type)}</span>` : ''}
-      ${it.text ? `<div class="text">${esc(it.text)}</div>` : ''}
-    </article>
-  `).join('');
+  weekControls.style.display='flex';
+  renderWeek();
 }
 
 async function loadByCode(code){
-  app.innerHTML = `<div class="state">Chargement du journal…</div>`;
-  const {data,error} = await db
-    .from(TABLE)
+  app.innerHTML='<div class="state">Chargement du journal…</div>';
+  const {data,error}=await db.from(TABLE)
     .select('classe,code,date_publication,contenu,actif')
-    .eq('code',code)
-    .eq('actif',true)
-    .limit(1);
+    .eq('code',code).eq('actif',true).limit(1);
 
   if(error){
-    console.error(error);
-    app.innerHTML = `<div class="state">
-      <strong>Impossible de charger le journal</strong>
-      La page GitHub fonctionne, mais Supabase refuse la lecture.<br>
-      <small>${esc(error.message || '')}</small>
-      <br><button class="refresh" onclick="location.reload()">Réessayer</button>
-    </div>`;
+    app.innerHTML=`<div class="state"><strong>Impossible de charger le journal</strong>${esc(error.message||'')}</div>`;
     return;
   }
-
   if(!data?.length){
-    subtitle.textContent = 'Journal introuvable';
-    meta.innerHTML = '';
-    app.innerHTML = `<div class="state">
-      <strong>Aucun journal ne correspond à ce lien</strong>
-      Le code demandé est : <b>${esc(code)}</b>.<br>
-      Il faut republier cette classe depuis Mon Suivi Prof ou vérifier le lien transmis.
-    </div>`;
+    subtitle.textContent='Journal introuvable';
+    meta.innerHTML='';
+    app.innerHTML=`<div class="state"><strong>Aucun journal ne correspond à ce lien</strong>Code demandé : <b>${esc(code)}</b></div>`;
     return;
   }
-
   renderJournal(data[0]);
 }
 
 async function showChooser(){
-  subtitle.textContent = 'Choisis ta classe / ton cours';
-  meta.innerHTML = '';
-
-  const {data,error} = await db
-    .from(TABLE)
+  subtitle.textContent='Choisis ta classe / ton cours';
+  meta.innerHTML='';
+  const {data,error}=await db.from(TABLE)
     .select('classe,code,date_publication,contenu,actif')
-    .eq('actif',true)
-    .order('classe',{ascending:true});
+    .eq('actif',true).order('classe',{ascending:true});
 
   if(error){
-    console.error(error);
-    app.innerHTML = `<div class="state">
-      <strong>Impossible d'afficher les journaux disponibles</strong>
-      Supabase refuse actuellement la lecture publique.<br>
-      <small>${esc(error.message || '')}</small>
-    </div>`;
+    app.innerHTML=`<div class="state"><strong>Impossible d'afficher les journaux disponibles</strong>${esc(error.message||'')}</div>`;
     return;
   }
-
   if(!data?.length){
-    app.innerHTML = `<div class="state"><strong>Aucun journal publié</strong>Publie d'abord un journal depuis Mon Suivi Prof.</div>`;
+    app.innerHTML='<div class="state"><strong>Aucun journal publié</strong>Publie d’abord un journal depuis Mon Suivi Prof.</div>';
     return;
   }
+  app.innerHTML=`<div class="chooser">${data.map(row=>{
+    const p=row.contenu||{};
+    return `<button class="choice" data-code="${esc(row.code)}">
+      <strong>${esc(p.className||row.classe||'Classe')}</strong>
+      <small>${esc(p.courseName||'')}${row.date_publication?' · mis à jour '+esc(new Date(row.date_publication).toLocaleDateString('fr-BE')):''}</small>
+    </button>`;
+  }).join('')}</div>`;
 
-  app.innerHTML = `<div class="chooser">${
-    data.map(row=>{
-      const p=row.contenu||{};
-      return `<button class="choice" data-code="${esc(row.code)}">
-        <strong>${esc(p.className || row.classe || 'Classe')}</strong>
-        <small>${esc(p.courseName || '')}${row.date_publication ? ' · mis à jour '+esc(new Date(row.date_publication).toLocaleDateString('fr-BE')) : ''}</small>
-      </button>`;
-    }).join('')
-  }</div>`;
-
-  app.querySelectorAll('.choice').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const code=btn.dataset.code;
-      const u=new URL(location.href);
-      u.searchParams.set('code',code);
-      location.href=u.toString();
-    });
-  });
+  app.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>{
+    const u=new URL(location.href);
+    u.searchParams.set('code',btn.dataset.code);
+    location.href=u.toString();
+  }));
 }
 
-const code=getCode();
-if(code) loadByCode(code);
-else showChooser();
+document.getElementById('prevWeek').addEventListener('click',()=>{
+  currentMonday=addDays(currentMonday,-7); renderWeek();
+});
+document.getElementById('nextWeek').addEventListener('click',()=>{
+  currentMonday=addDays(currentMonday,7); renderWeek();
+});
+
+const code=new URLSearchParams(location.search).get('code')?.trim()||'';
+if(code) loadByCode(code); else showChooser();
 </script>
 </body>
 </html>
