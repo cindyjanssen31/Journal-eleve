@@ -9,6 +9,8 @@
   --ink:#26385f;--muted:#78859b;--line:#e1e7f0;--bg:#f7f9fd;
   --course:#e7f1ff;--course-b:#74a5e8;--course-t:#244f8d;
   --homework:#efe7ff;--homework-b:#9b7bd9;--homework-t:#5d3f97;
+  --theory:#fff2c9;--theory-b:#e0b74b;--theory-t:#8a6205;
+  --exercises:#dff4e8;--exercises-b:#63b889;--exercises-t:#236746;
   --test:#ffe5ee;--test-b:#df6f99;--test-t:#a53862;
   --info:#fff0cd;--info-b:#e4b34d;--info-t:#89630d;
 }
@@ -63,9 +65,13 @@ body{
 }
 .entry.course{background:var(--course);border-color:#c9defa}
 .entry.homework{background:var(--homework);border-color:#d9c9f5}
+.entry.homework.hw-theory{background:var(--theory);border-color:#f0dc94}
+.entry.homework.hw-exercises{background:var(--exercises);border-color:#b8e3c9}
 .entry.test{background:var(--test);border-color:#f0bfd0}
 .entry.info{background:var(--info);border-color:#f0d692}
+.entry-type-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .entry-type{font-size:9px;font-weight:950;text-transform:uppercase;letter-spacing:.04em;opacity:.8}
+.entry-points{font-size:11px;font-weight:950;background:#fff;border:1px solid rgba(165,56,98,.22);color:var(--test-t);padding:3px 7px;border-radius:999px;white-space:nowrap}
 .entry-course{font-size:12px;font-weight:950;margin-top:3px}
 .entry-chapter{font-size:10px;font-weight:800;margin-top:2px;opacity:.8}
 .entry-text{font-size:11px;margin-top:5px;white-space:pre-wrap}
@@ -127,6 +133,13 @@ const subtitle=document.getElementById('subtitle');
 const meta=document.getElementById('meta');
 const weekControls=document.getElementById('weekControls');
 const weekTitle=document.getElementById('weekTitle');
+
+function subtypeClass(it){
+  const t=String(it?.type||'').toLowerCase().trim();
+  if(/théorie|theorie|leçon|lecon/.test(t)) return 'hw-theory';
+  if(/exercice|exercices|drill|application/.test(t)) return 'hw-exercises';
+  return '';
+}
 
 const esc=v=>String(v??'')
   .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
@@ -199,8 +212,12 @@ function renderWeek(){
     }else{
       dayItems.forEach(it=>{
         const kind=classify(it);
-        html+=`<article class="entry ${kind}">
-          <div class="entry-type">${esc(kind==='homework' && it.type ? it.type : label(kind))}</div>
+        const extraClass=kind==='homework' ? subtypeClass(it) : '';
+        html+=`<article class="entry ${kind} ${extraClass}">
+          <div class="entry-type-row">
+            <div class="entry-type">${esc(kind==='homework' && it.type ? it.type : label(kind))}</div>
+            ${kind==='test'?`<div class="entry-points">/ ${esc(it.max20||20)}</div>`:''}
+          </div>
           <div class="entry-course">${esc(it.course||payload.courseName||'')}</div>
           ${it.chapter?`<div class="entry-chapter">${esc(it.chapter)}</div>`:''}
           ${it.text?`<div class="entry-text">${esc(it.text)}</div>`:''}
@@ -228,8 +245,12 @@ function renderWeek(){
         <div class="day-list">
           ${dayItems.map(it=>{
             const kind=classify(it);
-            return `<article class="entry ${kind}">
-              <div class="entry-type">${esc(kind==='homework' && it.type ? it.type : label(kind))}</div>
+            const extraClass=kind==='homework' ? subtypeClass(it) : '';
+            return `<article class="entry ${kind} ${extraClass}">
+              <div class="entry-type-row">
+                <div class="entry-type">${esc(kind==='homework' && it.type ? it.type : label(kind))}</div>
+                ${kind==='test'?`<div class="entry-points">/ ${esc(it.max20||20)}</div>`:''}
+              </div>
               <div class="entry-course">${esc(it.course||payload.courseName||'')}</div>
               ${it.chapter?`<div class="entry-chapter">${esc(it.chapter)}</div>`:''}
               ${it.text?`<div class="entry-text">${esc(it.text)}</div>`:''}
